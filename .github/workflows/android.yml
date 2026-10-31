@@ -1,0 +1,31 @@
+
+name: Build SHELL KOMBAT APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download project
+        uses: actions/checkout@v4
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v1
+        with:
+          version: 4.3.0
+          use-dotnet: false
+
+      - name: Build Android APK
+        run: |
+          mkdir -p build
+          godot --headless --path . --editor --quit
+          godot --headless --path . --export-debug "Android" build/SHELL-KOMBAT.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SHELL-KOMBAT-APK
+          path: build/SHELL-KOMBAT.apk
