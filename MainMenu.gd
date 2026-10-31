@@ -1,9 +1,11 @@
+
 extends Control
 
 func _ready():
     var bg = ColorRect.new()
     bg.color = Color("#101820")
     bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
     add_child(bg)
 
     var title = Label.new()
@@ -41,3 +43,15 @@ func create_button(text_value: String, y: float):
     btn.anchor_bottom = y + 0.09
     btn.add_theme_font_size_override("font_size", 26)
     add_child(btn)
+
+    if text_value == "START FIGHT":
+        btn.pressed.connect(_on_start_pressed)
+
+    if text_value == "EXIT":
+        btn.pressed.connect(_on_exit_pressed)
+
+func _on_start_pressed():
+    get_tree().change_scene_to_file("res://CharacterSelect.tscn")
+
+func _on_exit_pressed():
+    get_tree().quit()
